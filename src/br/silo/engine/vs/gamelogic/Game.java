@@ -5,10 +5,30 @@
  */
 package br.silo.engine.vs.gamelogic;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Siloé
  */
 public class Game {
+    
+    private ArrayList<Scene> scenes;
+    
+    private void gameLooping(){
+        
+    }
+    
+    public void start(){
+        
+    }
+    
+    public void pause(){
+        
+    }
+    
+    private void menuScene(){
+        
+    }
     
 }
