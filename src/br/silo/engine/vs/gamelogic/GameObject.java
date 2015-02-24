@@ -1,6 +1,7 @@
 
 package br.silo.engine.vs.gamelogic;
 
+import br.silo.engine.vs.fileacess.ImageFactory;
 import br.silo.engine.vs.graphics.IRenderer;
 
 /**
@@ -11,14 +12,14 @@ public class GameObject implements IRenderer{
     
     private int x;
     private int y;
+    private Sprite sprite;
 
+    public GameObject() {
+        sprite = new Sprite();
+    }
+        
     public void update(){
         
-    }
-    
-    @Override
-    public void draw() {
-        throw new UnsupportedOperationException("Not supported yet."); 
     }
 
     public int getX() {
@@ -36,5 +37,14 @@ public class GameObject implements IRenderer{
     public void setY(int y) {
         this.y = y;
     }
+
+    @Override
+    public Sprite getSprite() {
+        return sprite;
+    }
     
+    public void loadSprite(String name){
+        sprite.loadImage(name);        
+    }
+   
 }
