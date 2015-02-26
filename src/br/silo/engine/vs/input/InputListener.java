@@ -5,10 +5,12 @@
  */
 package br.silo.engine.vs.input;
 
+import java.util.EventListener;
+
 /**
  *
  * @author Siloé
  */
-public interface InputListener {
-    
+public interface InputListener extends EventListener {    
+    public void inputed(InputEvent ie);
 }

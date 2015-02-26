@@ -3,11 +3,12 @@ package br.silo.engine.vs.graphics;
 
 import br.silo.engine.vs.gamelogic.GameObject;
 import br.silo.engine.vs.gamelogic.Scene;
-import java.awt.Graphics;
+import br.silo.engine.vs.input.InputEvent;
+import br.silo.engine.vs.input.InputListener;
 import java.awt.Graphics2D;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
 
 /**
  *
@@ -18,9 +19,16 @@ public class RendererManager {
     private static Scene currentScene;
     private static RendererManager instance;
     private static Screen screen;
+    private KeyAdapter ka;
+    
+    private ArrayList<InputListener> listaInputListenner;
     
     private RendererManager() {
         screen = new Screen();
+        listaInputListenner = new ArrayList<>();
+        
+        putKeyListenner();
+        screen.requestFocusInWindow();
     }
     
     public static RendererManager getInstance() {
@@ -30,11 +38,41 @@ public class RendererManager {
         return instance;
     }
     
-    public static Scene getCurrentScene() {        
+    public void addInputListenner(InputListener il){
+        listaInputListenner.add(il);
+    }    
+    
+    public void putKeyListenner(){   
+        ka = new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+            }
+            
+            @Override
+            public void keyPressed(KeyEvent ev) {
+                for (InputListener il : listaInputListenner) {
+                    InputEvent ie = new InputEvent(ev, KeyEvent.KEY_PRESSED);
+                    il.inputed(ie);
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent ev) {
+                for (InputListener il : listaInputListenner) {
+                    InputEvent ie = new InputEvent(ev, KeyEvent.KEY_RELEASED);
+                    il.inputed(ie);
+                }
+            }
+        };
+        
+        screen.addKeyListener(ka);
+    }
+    
+    public Scene getCurrentScene() {        
         return currentScene;
     }
 
-    public static void setCurrentScene(Scene currentScene) {
+    public void setCurrentScene(Scene currentScene) {
         RendererManager.currentScene = currentScene;
     }
     

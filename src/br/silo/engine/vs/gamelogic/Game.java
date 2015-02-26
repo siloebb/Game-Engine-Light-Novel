@@ -6,22 +6,32 @@
 package br.silo.engine.vs.gamelogic;
 
 import br.silo.engine.vs.graphics.RendererManager;
+import br.silo.engine.vs.input.InputEvent;
+import br.silo.engine.vs.input.InputListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
  *
  * @author Siloé
  */
-public class Game extends Thread {
+public class Game extends Thread implements InputListener {
 
     private HashMap<String, Scene> scenes;
     private String firstScene;
     private boolean pause = false;
     private RendererManager render;
+    private ArrayList<InputEvent> listaInputEvent;
 
     public Game() {
         render = RendererManager.getInstance();
         scenes = new HashMap<>();
+
+        listaInputEvent = new ArrayList<>();
+
+        render.addInputListenner(this);
     }
 
     @Override
@@ -96,7 +106,23 @@ public class Game extends Thread {
 
     public void setFirstScene(String firstScene) {
         this.firstScene = firstScene;
-        RendererManager.setCurrentScene(scenes.get(firstScene));
+        render.setCurrentScene(scenes.get(firstScene));
+    }
+
+    @Override
+    public void inputed(InputEvent ie) {
+        //adiciona na lista um botão pressionado
+        if (ie.getState() == KeyEvent.KEY_PRESSED) {
+            if (!listaInputEvent.contains(ie)) {
+                listaInputEvent.add(ie);
+            }
+        }
+        //remove da lista quando é released
+        if (ie.getState() == KeyEvent.KEY_RELEASED) {
+            if (listaInputEvent.contains(ie)) {
+                listaInputEvent.remove(ie);
+            }
+        }
     }
 
 }
