@@ -9,8 +9,8 @@ public class ConfigGraphics {
     
     private static ConfigGraphics instance;
     
-    private static int rWidth = 800;
-    private static int rHeight = 600;
+    public static final int rWidth = 815;
+    public static final int rHeight = 640;
     
 
     private ConfigGraphics() {

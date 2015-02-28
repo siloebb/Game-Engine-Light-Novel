@@ -1,6 +1,6 @@
 package br.silo.engine.vs.graphics;
 
-import br.silo.engine.vs.gamelogic.Sprite;
+import java.awt.Graphics;
 
 /**
  *
@@ -8,6 +8,13 @@ import br.silo.engine.vs.gamelogic.Sprite;
  */
 public interface IRenderer {
     
-    public Sprite getSprite();
+    /**
+     *Usado para desenhar na tela e abstrair qualquer coisa imprimivél
+     * 
+     * @param g
+     * @param x
+     * @param y
+     */
+    public void draw(Graphics g, int x, int y);
     
 }

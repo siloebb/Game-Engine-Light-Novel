@@ -1,10 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.silo.engine.vs.gamelogic;
 
+import br.silo.engine.vs.visualnovel.Actions;
 import java.util.ArrayList;
 
 /**
@@ -15,10 +11,12 @@ public class Scene {
     
     private String nome;
     private ArrayList<GameObject> listaObj;
+    private Actions actions;
 
     public Scene(String nome) {
         this.nome = nome;
-        this.listaObj = new ArrayList<>();        
+        this.listaObj = new ArrayList<>();
+        actions = new Actions(this);
     }
         
     public ArrayList<GameObject> getListaObj() {
@@ -28,6 +26,14 @@ public class Scene {
     public void addListaObj(GameObject obj) {
         this.listaObj.add(obj);
     }
+    
+    public void removeListaObj(GameObject obj) {
+        this.listaObj.remove(obj);
+    }
+    
+    public void removeListaObj(int index) {
+        this.listaObj.remove(index);
+    }
 
     public String getNome() {
         return nome;
@@ -36,5 +42,12 @@ public class Scene {
     public void setNome(String nome) {
         this.nome = nome;
     }
-                            
+
+    public void update(){
+        for (GameObject go: listaObj) {
+            go.update();
+            actions.update();
+        }
+    }
+    
 }

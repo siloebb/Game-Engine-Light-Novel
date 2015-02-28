@@ -17,9 +17,11 @@ import javax.swing.JFrame;
 public class Screen extends JComponent{
     
     private JFrame parent;
+    private ConfigGraphics config;
 
     public Screen() {
-        this.setSize(800, 600);
+        config = ConfigGraphics.getInstance();
+        this.setSize(ConfigGraphics.rWidth, ConfigGraphics.rHeight);
         this.setBackground(Color.BLACK);
         this.setVisible(true);
         
@@ -28,7 +30,7 @@ public class Screen extends JComponent{
     
     private void createParent(){
         parent = new JFrame("JOGO");
-        parent.setSize(800, 600);
+        parent.setSize(ConfigGraphics.rWidth, ConfigGraphics.rHeight);
         parent.setBackground(Color.BLACK);
         parent.setVisible(true);
         parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

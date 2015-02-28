@@ -8,7 +8,7 @@ package br.silo.engine.vs.gamelogic;
 import br.silo.engine.vs.graphics.RendererManager;
 import br.silo.engine.vs.input.InputEvent;
 import br.silo.engine.vs.input.InputListener;
-import java.awt.event.KeyAdapter;
+import br.silo.engine.vs.input.InputManager;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,10 +20,13 @@ import java.util.HashMap;
 public class Game extends Thread implements InputListener {
 
     private HashMap<String, Scene> scenes;
+    private Scene currentScene;
     private String firstScene;
     private boolean pause = false;
     private RendererManager render;
     private ArrayList<InputEvent> listaInputEvent;
+    
+    private InputManager im;
 
     public Game() {
         render = RendererManager.getInstance();
@@ -32,6 +35,10 @@ public class Game extends Thread implements InputListener {
         listaInputEvent = new ArrayList<>();
 
         render.addInputListenner(this);
+        
+        im = InputManager.getInstance();
+        im.setListaInputEvent(listaInputEvent);
+        
     }
 
     @Override
@@ -79,7 +86,7 @@ public class Game extends Thread implements InputListener {
     }
 
     private void updateAll() {
-
+         currentScene.update();
     }
 
     private void menuScene() {
@@ -106,7 +113,13 @@ public class Game extends Thread implements InputListener {
 
     public void setFirstScene(String firstScene) {
         this.firstScene = firstScene;
-        render.setCurrentScene(scenes.get(firstScene));
+        Scene s = scenes.get(firstScene);
+        render.setCurrentScene(s);
+        currentScene = s;
+    }
+    
+    public void setCurrentScene(String nome){
+        currentScene = scenes.get(nome);
     }
 
     @Override

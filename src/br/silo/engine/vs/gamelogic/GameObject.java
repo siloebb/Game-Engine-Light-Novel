@@ -1,21 +1,21 @@
 
 package br.silo.engine.vs.gamelogic;
 
-import br.silo.engine.vs.fileacess.ImageFactory;
 import br.silo.engine.vs.graphics.IRenderer;
+import java.awt.Graphics;
 
 /**
  *
  * @author Siloé
  */
-public class GameObject implements IRenderer{
+public class GameObject {
     
     private int x;
     private int y;
-    private Sprite sprite;
+    private IRenderer printable;
 
     public GameObject() {
-        sprite = new Sprite();
+        printable = new Sprite();
     }
         
     public void update(){
@@ -37,14 +37,17 @@ public class GameObject implements IRenderer{
     public void setY(int y) {
         this.y = y;
     }
+       
+    public void draw(Graphics g){
+        printable.draw(g, x, y);
+    }
 
-    @Override
-    public Sprite getSprite() {
-        return sprite;
+    public void setAsSprite(Sprite printable) {
+        this.printable = printable;
     }
     
-    public void loadSprite(String name){
-        sprite.loadImage(name);        
+    public void setAsText(Text printable) {
+        this.printable = printable;
     }
-   
+       
 }

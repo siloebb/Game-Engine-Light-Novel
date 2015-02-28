@@ -5,7 +5,7 @@ import br.silo.engine.vs.gamelogic.GameObject;
 import br.silo.engine.vs.gamelogic.Scene;
 import br.silo.engine.vs.input.InputEvent;
 import br.silo.engine.vs.input.InputListener;
-import java.awt.Graphics2D;
+import java.awt.Graphics;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -77,12 +77,11 @@ public class RendererManager {
     }
     
     public void drawScene(){
-        Graphics2D g2d = (Graphics2D) screen.getGraphics();
-        
-        
-        
+        //Graphics2D g2d = (Graphics2D) screen.getGraphics();
+        Graphics graphics = screen.getGraphics();
+                        
         for (GameObject o : currentScene.getListaObj()) {
-            g2d.drawImage(o.getSprite().getImage(), o.getX(), o.getY(), null);
+            o.draw(graphics);            
         }
         
     }    
