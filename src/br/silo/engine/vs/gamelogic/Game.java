@@ -12,12 +12,16 @@ import br.silo.engine.vs.input.InputManager;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Siloé
  */
 public class Game extends Thread implements InputListener {
+    
+    private static Game instance;
 
     private HashMap<String, Scene> scenes;
     private Scene currentScene;
@@ -25,20 +29,27 @@ public class Game extends Thread implements InputListener {
     private boolean pause = false;
     private RendererManager render;
     private ArrayList<InputEvent> listaInputEvent;
-    
+
     private InputManager im;
 
-    public Game() {
+    public static Game getInstance() {
+        if(instance == null){
+            instance = new Game();            
+        }
+        return instance;
+    }      
+
+    private Game() {
         render = RendererManager.getInstance();
         scenes = new HashMap<>();
 
         listaInputEvent = new ArrayList<>();
 
         render.addInputListenner(this);
-        
+
         im = InputManager.getInstance();
         im.setListaInputEvent(listaInputEvent);
-        
+
     }
 
     @Override
@@ -58,6 +69,7 @@ public class Game extends Thread implements InputListener {
 
         while (true) {
             if ((System.currentTimeMillis() - inicio) > delay && pause == false) {
+                                
                 inicio = System.currentTimeMillis();
 
                 updateAll();
@@ -86,7 +98,7 @@ public class Game extends Thread implements InputListener {
     }
 
     private void updateAll() {
-         currentScene.update();
+        currentScene.update();
     }
 
     private void menuScene() {
@@ -117,16 +129,26 @@ public class Game extends Thread implements InputListener {
         render.setCurrentScene(s);
         currentScene = s;
     }
-    
-    public void setCurrentScene(String nome){
+
+    public void setCurrentScene(String nome) {
         currentScene = scenes.get(nome);
+        render.setCurrentScene(currentScene);
+        if(currentScene == null){
+            try {
+                throw new Exception("Scene not found!");
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
     }
 
     @Override
     public void inputed(InputEvent ie) {
         //adiciona na lista um botão pressionado
-        if (ie.getState() == KeyEvent.KEY_PRESSED) {
+        if (ie.getState() == KeyEvent.KEY_PRESSED) {            
             if (!listaInputEvent.contains(ie)) {
+                //marca o tempo de quando foi pressionado
+                
                 listaInputEvent.add(ie);
             }
         }

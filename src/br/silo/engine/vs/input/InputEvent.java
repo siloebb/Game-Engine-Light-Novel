@@ -15,6 +15,7 @@ import java.util.EventObject;
 public class InputEvent extends  EventObject {
            
     private KeyEvent event;
+    private long lastPressed = 0;
     /**
      * Usar as constantes de KeyEvent
      */
@@ -32,6 +33,14 @@ public class InputEvent extends  EventObject {
     
     public int getState() {
         return state;
+    }
+
+    public long getLastPressed() {
+        return lastPressed;
+    }
+
+    public void setLastPressed(long lastPressed) {
+        this.lastPressed = lastPressed;
     }
 
     @Override

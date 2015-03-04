@@ -25,6 +25,7 @@ public class DialogChoose extends GameObject {
     private int selectedaAnswer = 0;
 
     private ArrayList<String> listaAnswer;
+    private ArrayList<Text> listaText;
 
     public DialogChoose(String title, ArrayList<String> listaAnswer) {
         dialog = new Sprite();
@@ -35,8 +36,16 @@ public class DialogChoose extends GameObject {
 
         textDialog = new Text();
 
-        this.listaAnswer = listaAnswer;
+        this.listaAnswer = listaAnswer;        
         this.textDialog.setText(title);
+        
+        this.listaText = new ArrayList<>();
+        
+        for (String answer1 : listaAnswer) {
+            Text t = new Text();
+            t.setText(answer1);
+            listaText.add(t);
+        }
     }
 
     public DialogChoose() {
@@ -95,6 +104,11 @@ public class DialogChoose extends GameObject {
         dialog.draw(g, this.x, this.y);
         chooser.draw(g, x + 20, y + 20 + (chooser.getImage().getHeight() * selectedaAnswer));
         textDialog.draw(g, this.x + 20, this.y + 40);
+        
+        for(int i=0; i<listaText.size(); i++){
+            listaText.get(i).draw(g, x+20, y+40 + (40*(i+1)));
+        }
+        
     }
 
     /**

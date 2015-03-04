@@ -2,20 +2,22 @@ package br.silo.engine.vs.visualnovel.actions;
 
 import br.silo.engine.vs.gamelogic.Scene;
 import br.silo.engine.vs.gamelogic.objects.DialogText;
+import br.silo.engine.vs.input.InputManager;
 import br.silo.engine.vs.visualnovel.ActionCommand;
+import java.awt.event.KeyEvent;
 
 /**
  *
  * @author Siloé
  */
-public class ShowText implements ActionCommand {
+public class ActionShowText implements ActionCommand {
 
     private DialogText text;
     private Scene scene;
+    private boolean end = false;
 
-    public ShowText(DialogText text, Scene scene) {
+    public ActionShowText(DialogText text) {
         this.text = text;
-        this.scene = scene;
     }
 
     @Override
@@ -30,12 +32,21 @@ public class ShowText implements ActionCommand {
 
     @Override
     public boolean isEnded() {
-        return false;
+        return end;
+    }
+    
+    @Override
+    public void setScene(Scene scene) {
+        this.scene = scene;
     }
 
     @Override
     public void update() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(InputManager.isKeyDown(KeyEvent.VK_ENTER)){
+            end = true;
+        }
     }
+
+    
 
 }

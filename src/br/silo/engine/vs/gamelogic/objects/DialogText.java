@@ -4,7 +4,6 @@ package br.silo.engine.vs.gamelogic.objects;
 import br.silo.engine.vs.gamelogic.GameObject;
 import br.silo.engine.vs.gamelogic.Sprite;
 import br.silo.engine.vs.gamelogic.Text;
-import br.silo.engine.vs.graphics.IRenderer;
 import java.awt.Graphics;
 
 /**
@@ -13,12 +12,12 @@ import java.awt.Graphics;
  */
 public class DialogText extends GameObject {
     
-    private Sprite dialog;
-    private Text textDialog;
+    private final Sprite dialog;
+    private final Text textDialog;
     private String text;
 
-    private int x = 0;
-    private int y = 400;
+    private final int x = 0;
+    private final int y = 400;
     
     public DialogText() {
         dialog = new Sprite();
@@ -29,7 +28,7 @@ public class DialogText extends GameObject {
 
     @Override
     public void update() {
-        super.update(); //To change body of generated methods, choose Tools | Templates.
+        
     }
     
     public String getText() {
@@ -42,9 +41,9 @@ public class DialogText extends GameObject {
     }
     
     @Override
-    public void draw(Graphics g) {
+    public void draw(Graphics g) {        
         dialog.draw(g, this.x, this.y);
-        textDialog.draw(g, this.x+20, this.y+40);
+        textDialog.draw(g, this.x+20, this.y+60);
     }
         
     /**

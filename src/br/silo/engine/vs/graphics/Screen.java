@@ -23,24 +23,41 @@ public class Screen extends JComponent{
         config = ConfigGraphics.getInstance();
         this.setSize(ConfigGraphics.rWidth, ConfigGraphics.rHeight);
         this.setBackground(Color.BLACK);
+        this.setIgnoreRepaint(true);
         this.setVisible(true);
+        this.setDoubleBuffered(true);
+        
         
         createParent();
     }
     
     private void createParent(){
-        parent = new JFrame("JOGO");
+        parent = new JFrame("JOGO"){
+            @Override
+            public void paint(Graphics g) {                
+            }
+            
+        };
         parent.setSize(ConfigGraphics.rWidth, ConfigGraphics.rHeight);
-        parent.setBackground(Color.BLACK);
-        parent.setVisible(true);
+        parent.setBackground(Color.BLACK);        
         parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        parent.setIgnoreRepaint(true);        
+        //parent.setUndecorated(true);
+        //parent.setExtendedState(JFrame.MAXIMIZED_BOTH);
         
+        
+        parent.setVisible(true);
         parent.add(this);
     }
-    
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g); //To change body of generated methods, choose Tools | Templates.
+    }
+        
     @Override
     public void paint(Graphics g) {
-        super.paint(g);
+        //super.paint(g);
         
     }
     

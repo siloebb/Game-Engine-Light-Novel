@@ -30,11 +30,11 @@ public class Sprite implements IRenderer{
         g2d.drawImage(getImage(), x, y, null);
     }
     
-    private int getHeight(){
+    public int getHeight(){
         return image.getHeight();
     }
     
-    private int getWeight(){
+    public int getWeight(){
         return image.getWidth();
     }
                

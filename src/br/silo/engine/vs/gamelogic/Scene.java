@@ -1,5 +1,6 @@
 package br.silo.engine.vs.gamelogic;
 
+import br.silo.engine.vs.visualnovel.ActionCommand;
 import br.silo.engine.vs.visualnovel.Actions;
 import java.util.ArrayList;
 
@@ -10,8 +11,8 @@ import java.util.ArrayList;
 public class Scene {
     
     private String nome;
-    private ArrayList<GameObject> listaObj;
-    private Actions actions;
+    private final ArrayList<GameObject> listaObj;
+    private final Actions actions;
 
     public Scene(String nome) {
         this.nome = nome;
@@ -34,6 +35,11 @@ public class Scene {
     public void removeListaObj(int index) {
         this.listaObj.remove(index);
     }
+    
+    public void addCommand(ActionCommand ac){
+        
+        actions.storeAction(ac);
+    }
 
     public String getNome() {
         return nome;
@@ -45,9 +51,10 @@ public class Scene {
 
     public void update(){
         for (GameObject go: listaObj) {
-            go.update();
-            actions.update();
+            go.update();            
         }
+        
+        actions.updateAction();
     }
     
 }
