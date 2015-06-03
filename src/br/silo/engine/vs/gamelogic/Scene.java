@@ -36,9 +36,16 @@ public class Scene {
         this.listaObj.remove(index);
     }
     
-    public void addCommand(ActionCommand ac){
-        
+    public void addCommand(ActionCommand ac){        
         actions.storeAction(ac);
+    }
+    
+    /**
+     * Adiciona uma lista de comando imediatamente após o indice atual
+     * @param lac 
+     */
+    public void addCommandNoAtual(ArrayList<ActionCommand> lac){        
+        actions.storeActionsNoAtual(lac);
     }
 
     public String getNome() {
@@ -49,9 +56,12 @@ public class Scene {
         this.nome = nome;
     }
 
+    /**
+     * É atualizado a cada frame
+     */
     public void update(){
         for (GameObject go: listaObj) {
-            go.update();            
+            go.update();
         }
         
         actions.updateAction();

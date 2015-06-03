@@ -46,7 +46,4 @@ public class ActionShowText implements ActionCommand {
             end = true;
         }
     }
-
-    
-
 }

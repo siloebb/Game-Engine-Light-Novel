@@ -12,8 +12,6 @@ import br.silo.engine.vs.input.InputManager;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -147,8 +145,7 @@ public class Game extends Thread implements InputListener {
         //adiciona na lista um botão pressionado
         if (ie.getState() == KeyEvent.KEY_PRESSED) {            
             if (!listaInputEvent.contains(ie)) {
-                //marca o tempo de quando foi pressionado
-                
+                //marca o tempo de quando foi pressionado                
                 listaInputEvent.add(ie);
             }
         }
@@ -160,4 +157,8 @@ public class Game extends Thread implements InputListener {
         }
     }
 
+    public Scene getCurrentScene() {
+        return currentScene;
+    }
+        
 }

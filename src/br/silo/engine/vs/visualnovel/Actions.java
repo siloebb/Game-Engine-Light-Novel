@@ -1,6 +1,5 @@
 package br.silo.engine.vs.visualnovel;
 
-import br.silo.engine.vs.gamelogic.GameObject;
 import br.silo.engine.vs.gamelogic.Scene;
 import java.util.ArrayList;
 
@@ -35,26 +34,45 @@ public class Actions {
         this.currentIndex = currentIndex;
     }
         
+    /**
+     * 
+     * @param cmd Ação que será guardada para ser executada em ordem.
+     */
     public void storeAction(ActionCommand cmd) {
         cmd.setScene(scene);
         listaAcoes.add(cmd);
     }
     
-    private boolean firstAction = true;
+    /**
+     * Adiciona uma lista de comando após o indice atual
+     * @param listaCmd 
+     */
+    public void storeActionsNoAtual(ArrayList<ActionCommand> listaCmd){
+        for(int i=0; i<listaCmd.size(); i++){
+            ActionCommand ac = listaCmd.get(i);
+            ac.setScene(scene);            
+        }
+        listaAcoes.addAll(currentIndex + 1, listaCmd);
+    }
+    
+    private boolean firstStepAction = true;
     private ActionCommand ac;
     
+    /**
+     * Executa uma ação e identifica se ela já terminou para executar a próxima
+     */
     public void updateAction() {
-        //Executa uma ação e identifica se ela já terminou para executar a próxima
+        
         if (listaAcoes.size() > 0 && currentIndex < listaAcoes.size()) {
-            if(firstAction){
+            if(firstStepAction){
                 ac = listaAcoes.get(currentIndex);
                 ac.execute();
-                firstAction = false;
+                firstStepAction = false;
             }
             ac.update();
-            if (ac.isEnded()) {                
+            if (ac.isEnded()) {
                 currentIndex++;
-                firstAction = true;
+                firstStepAction = true;
                 ac.end();
             }
         }

@@ -7,7 +7,9 @@ package br.silo.engine.vs.visualnovel.actions;
 
 import br.silo.engine.vs.gamelogic.Scene;
 import br.silo.engine.vs.gamelogic.objects.DialogChoose;
+import br.silo.engine.vs.input.InputManager;
 import br.silo.engine.vs.visualnovel.ActionCommand;
+import java.awt.event.KeyEvent;
 
 /**
  *
@@ -21,16 +23,21 @@ public class ActionShowQuestion implements ActionCommand {
 
     public ActionShowQuestion(DialogChoose chooser) {
         this.chooser = chooser;
+        chooser.setActionShowQuestion(this);
     }
-        
+
+    public void setEnded(boolean ended) {
+        this.ended = ended;
+    }
+                
     @Override
     public void execute() {
         scene.addListaObj(chooser);
     }
 
     @Override
-    public void end() {
-        scene.removeListaObj(chooser);
+    public void end() {        
+        scene.removeListaObj(chooser);        
     }
 
     @Override
@@ -41,8 +48,10 @@ public class ActionShowQuestion implements ActionCommand {
     @Override
     public void update() {
 //        if(InputManager.isKeyDown(KeyEvent.VK_ENTER)){
+//            System.out.println("Encerrando! "+ended);
 //            ended = true;
 //        }
+        
 //        if(InputManager.isKeyDown(KeyEvent.VK_UP)){
 //            chooser.setSelectedaAnswer(selectedaAnswer);
 //        }

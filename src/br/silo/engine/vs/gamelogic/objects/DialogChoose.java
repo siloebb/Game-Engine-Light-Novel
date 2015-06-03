@@ -1,9 +1,13 @@
 package br.silo.engine.vs.gamelogic.objects;
 
+import br.silo.engine.vs.gamelogic.Game;
 import br.silo.engine.vs.gamelogic.GameObject;
+import br.silo.engine.vs.gamelogic.Scene;
 import br.silo.engine.vs.gamelogic.Sprite;
 import br.silo.engine.vs.gamelogic.Text;
 import br.silo.engine.vs.input.InputManager;
+import br.silo.engine.vs.visualnovel.ActionCommand;
+import br.silo.engine.vs.visualnovel.actions.ActionShowQuestion;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -23,11 +27,13 @@ public class DialogChoose extends GameObject {
     private int y = 400;
 
     private int selectedaAnswer = 0;
-
-    private ArrayList<String> listaAnswer;
+    
     private ArrayList<Text> listaText;
+    private ArrayList<ArrayList<ActionCommand>> listaComandosParaRespostas;
+    
+    private ActionShowQuestion asq;
 
-    public DialogChoose(String title, ArrayList<String> listaAnswer) {
+    public DialogChoose(String title) {
         dialog = new Sprite();
         dialog.loadImage("caixa_dialogo.png");
 
@@ -35,17 +41,9 @@ public class DialogChoose extends GameObject {
         chooser.loadImage("chooser.png");
 
         textDialog = new Text();
-
-        this.listaAnswer = listaAnswer;        
+        
         this.textDialog.setText(title);
-        
-        this.listaText = new ArrayList<>();
-        
-        for (String answer1 : listaAnswer) {
-            Text t = new Text();
-            t.setText(answer1);
-            listaText.add(t);
-        }
+                        
     }
 
     public DialogChoose() {
@@ -57,14 +55,13 @@ public class DialogChoose extends GameObject {
 
         textDialog = new Text();
 
-        this.listaAnswer = new ArrayList<>();
         this.setText("");
     }
 
     @Override
     public void update() {
         if (InputManager.isKeyDown(KeyEvent.VK_DOWN)) {
-            if(selectedaAnswer < 3){
+            if(selectedaAnswer < listaText.size() - 1){
                 selectedaAnswer++;
             }
         }
@@ -74,10 +71,18 @@ public class DialogChoose extends GameObject {
             }
         }
         if (InputManager.isKeyDown(KeyEvent.VK_ENTER)) {
-            //Escolha
+            //Escolha            
+            Game instance = Game.getInstance();
+            Scene currentScene = instance.getCurrentScene();
+            currentScene.addCommandNoAtual(listaComandosParaRespostas.get(selectedaAnswer));
+            asq.setEnded(true);
         }
     }
 
+    public void setActionShowQuestion(ActionShowQuestion asq) {
+        this.asq = asq;
+    }
+        
     public String getText() {
         return text;
     }
@@ -95,14 +100,38 @@ public class DialogChoose extends GameObject {
         this.selectedaAnswer = selectedaAnswer;
     }
 
-    public void setListaAnswer(ArrayList<String> listaAnswer) {
+    /*public void setListaAnswer(ArrayList<String> listaAnswer) {
         this.listaAnswer = listaAnswer;
+        
+        this.listaText = new ArrayList<>();
+        
+        for (String answer1 : listaAnswer) {
+            Text t = new Text();
+            t.setText(answer1);
+            listaText.add(t);
+        }        
+    }*/
+    
+    public void addAnswer(String answer, ArrayList<ActionCommand> listaCmdResposta){        
+        if(this.listaText == null){
+            this.listaText = new ArrayList<>();
+        }
+        if(this.listaComandosParaRespostas == null){
+            this.listaComandosParaRespostas = new ArrayList<>();
+        }
+        
+        Text t = new Text();
+        t.setText(answer);
+        this.listaText.add(t);
+        
+        this.listaComandosParaRespostas.add(listaCmdResposta);
+        
     }
 
     @Override
     public void draw(Graphics g) {
         dialog.draw(g, this.x, this.y);
-        chooser.draw(g, x + 20, y + 20 + (chooser.getImage().getHeight() * selectedaAnswer));
+        chooser.draw(g, x + 20,  y+40 + (40*(selectedaAnswer)));//y+ 20 + (chooser.getImage().getHeight() * selectedaAnswer));
         textDialog.draw(g, this.x + 20, this.y + 40);
         
         for(int i=0; i<listaText.size(); i++){
