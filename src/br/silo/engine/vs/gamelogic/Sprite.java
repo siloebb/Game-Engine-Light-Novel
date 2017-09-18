@@ -28,6 +28,7 @@ public class Sprite implements IRenderer{
     public void draw(Graphics g, int x, int y) {
         Graphics2D g2d = (Graphics2D) g;
         g2d.drawImage(getImage(), x, y, null);
+        
     }
     
     public int getHeight(){
@@ -37,5 +38,5 @@ public class Sprite implements IRenderer{
     public int getWeight(){
         return image.getWidth();
     }
-               
+
 }

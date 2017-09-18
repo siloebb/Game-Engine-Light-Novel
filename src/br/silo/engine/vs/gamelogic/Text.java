@@ -16,14 +16,14 @@ import java.awt.Graphics;
  * @author Siloé
  */
 public class Text implements IRenderer {
-    
+
     private String text;
     private FontMetrics fm;
     private Font f;
 
     public Text() {
         f = new Font("Times New Roman", Font.BOLD, 30);
-    }        
+    }
 
     public String getText() {
         return text;
@@ -37,16 +37,17 @@ public class Text implements IRenderer {
     public void draw(Graphics g, int x, int y) {
         //fm = g.getFontMetrics();
         //Graphics2D g2d = (Graphics2D) g;
-        
+
         /*g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-        RenderingHints.VALUE_ANTIALIAS_ON);*/
-        
-        
-        g.setFont(f);
-        g.setColor(Color.WHITE);
-        g.drawString(text,x,y); 
-        
-        //g.drawString("mjjn",0,0); 
+         RenderingHints.VALUE_ANTIALIAS_ON);*/
+
+        String[] split = text.split("\n");
+        for (int i = 0; i < split.length; i++) {
+            g.setFont(f);
+            g.setColor(Color.WHITE);
+            g.drawString(split[i], x, y+(i*30));
+        }
+
     }
-    
+
 }

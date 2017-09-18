@@ -7,6 +7,7 @@ import br.silo.engine.vs.input.InputListener;
 import java.awt.Graphics;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -91,17 +92,38 @@ public class RendererManager {
         RendererManager.currentScene = currentScene;
     }
 
+    private BufferedImage img;
+
     public void drawScene() {
         //Graphics2D g2d = (Graphics2D) screen.getGraphics();
         Graphics graphics = screen.getGraphics();
 
-        for (GameObject o : currentScene.getListaObj()) {
-            o.draw(graphics);
+        if (img == null) {
+            img = new BufferedImage(screen.getWidth(), screen.getHeight(), BufferedImage.TYPE_INT_ARGB);
+        } else {
+            // Update the backing buffer to meet the requirements of the changed screen size...
+            BufferedImage buffer = new BufferedImage(screen.getWidth(), screen.getHeight(), BufferedImage.TYPE_INT_ARGB);
+            Graphics gbuffer = buffer.createGraphics();
+            gbuffer.drawImage(img, 0, 0, null);
+            gbuffer.dispose();
+            img = buffer;
         }
-        screen.requestFocusInWindow();        
+
+        Graphics gbuffer = img.createGraphics();
+
+        for (GameObject o : currentScene.getListaObj()) {
+            o.draw(gbuffer);
+        }
+
+        // Dispose of the buffers graphics context, this frees up memory for us
+        gbuffer.dispose();
+        // Paint the image to the screen...
+        graphics.drawImage(img, 0, 0, null);
+
+        screen.requestFocusInWindow();
     }
-    
-    public void repaint(){
+
+    public void repaint() {
         screen.repaint();
     }
 
